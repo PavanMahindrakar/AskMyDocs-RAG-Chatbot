@@ -29,3 +29,4 @@ build/
 
 # Optional: uploaded data
 data/
+.env
