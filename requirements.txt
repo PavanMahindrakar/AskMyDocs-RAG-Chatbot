@@ -6,9 +6,12 @@ tqdm
 requests
 fastapi
 uvicorn
+
+# LangChain + integrations
 langchain
 langchain-community
 langchain-ollama
 langchain-huggingface
-sentence-transformers==2.2.2
-huggingface-hub==0.14.1   # pin to compatible version
+
+# Embeddings
+sentence-transformers
