@@ -1,12 +1,20 @@
+# Core dependencies
+streamlit
 faiss-cpu
 python-dotenv
 pypdf
 tqdm
 requests
+
+# Backend (if you expose API endpoints, otherwise optional)
 fastapi
 uvicorn
+
+# LangChain + related integrations
 langchain
 langchain-community
 langchain-ollama
 langchain-huggingface
+
+# Embedding models
 sentence-transformers==2.2.2
