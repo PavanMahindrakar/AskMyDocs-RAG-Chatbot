@@ -1,3 +1,15 @@
+---
+title: AskMyDocs RAG Chatbot
+emoji: 🤖📄
+colorFrom: indigo
+colorTo: blue
+sdk: streamlit
+sdk_version: "1.38.0"
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # RAG Pipeline with FAISS + Streamlit (Local LLM via Ollama)
 
 A **Retrieval-Augmented Generation (RAG)** system using FAISS for vector storage, Streamlit for a ChatGPT-style interface, and a local LLM via Ollama (Mistral) for private, on-device inference.
