@@ -1,15 +1,15 @@
 import streamlit as st
 import os
 from ingest import ingest_files
-from query import get_chatbot
+from query import get_chatbot 
 
 # ------------------- Streamlit Page Config -------------------
 st.set_page_config(page_title="💬 RAG Chat", page_icon="🧠")
-st.title("💬 AskMyDocs ")
+st.title("💬 AskMyDocs")
 
 # ------------------- Initialize Chatbot & Memory -------------------
 if "qa" not in st.session_state:
-    st.session_state.qa = get_chatbot()   # persistent chatbot with memory
+    st.session_state.qa = get_chatbot()  # persistent chatbot with memory
 
 # ------------------- Initialize Chat History -------------------
 if "messages" not in st.session_state:
@@ -24,6 +24,7 @@ with st.sidebar.expander("📂 Manage Documents", expanded=False):
     )
 
     if uploaded_files:
+        os.makedirs("data", exist_ok=True)  # Ensure data folder exists
         for file in uploaded_files:
             file_path = os.path.join("data", file.name)
             with open(file_path, "wb") as f:
@@ -55,3 +56,4 @@ if query := st.chat_input("Ask a question about your documents..."):
 
     # Save assistant response
     st.session_state["messages"].append({"role": "assistant", "content": answer})
+
