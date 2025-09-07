@@ -31,14 +31,16 @@ def get_chatbot(index_dir="index"):
     )
 
     # Optional: custom prompt template to ground answers in retrieved documents
-    prompt_template = """Use the following document chunks to answer the question as accurately as possible.
-If the answer is not contained in the docs, respond: "I could not find relevant information in the documents."
+    prompt_template = """
+Use the following document chunks to answer the question as accurately as possible.
+If the answer is not fully contained in the docs, try to generate a reasonable response based on the information available.
 
 Document Chunks:
 {context}
 
 Question: {question}
 Answer:"""
+
     PROMPT = PromptTemplate(
         template=prompt_template,
         input_variables=["context", "question"]
