@@ -50,7 +50,11 @@ if query := st.chat_input("Ask a question about your documents..."):
     # Generate assistant response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = st.session_state.qa({"question": query})
+            response = st.session_state.qa({
+    "question": query,
+    "chat_history": []   # ✅ pass empty since memory=None
+})
+
             answer = response["answer"]
             st.markdown(answer)
 

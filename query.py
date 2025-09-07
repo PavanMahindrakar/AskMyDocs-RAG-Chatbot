@@ -18,7 +18,7 @@ def get_chatbot(index_dir="index"):
 
     # Load FAISS index
     vectorstore = FAISS.load_local(index_dir, embedding_model, allow_dangerous_deserialization=True)
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})  # top 5 chunks
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})  # top 3 chunks
 
     # Ollama LLM
     llm = OllamaLLM(model="mistral")
@@ -33,13 +33,18 @@ def get_chatbot(index_dir="index"):
     # Optional: custom prompt template to ground answers in retrieved documents
     prompt_template = """
 Use the following document chunks to answer the question as accurately as possible.
-If the answer is not fully contained in the docs, try to generate a reasonable response based on the information available.
+
+If the answer is not in the documents, reply with:
+"I could not find relevant information in the provided documents."
 
 Document Chunks:
 {context}
 
 Question: {question}
-Answer:"""
+Answer:
+"""
+
+
 
     PROMPT = PromptTemplate(
         template=prompt_template,
@@ -50,7 +55,7 @@ Answer:"""
     qa = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=retriever,
-        memory=memory,
+        memory=None,
         return_source_documents=True,  # ✅ must be True
         combine_docs_chain_kwargs={"prompt": PROMPT}  # use prompt to force grounding
     )
