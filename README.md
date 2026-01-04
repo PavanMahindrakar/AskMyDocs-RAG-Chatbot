@@ -170,7 +170,7 @@ streamlit run ui.py
 ## 👨‍💻 Author
 
 **Pavan Mahindrakar**
-MCA | Aspiring Data Engineer | AI / ML Enthusiast
+Aspiring Data Scientist | AI/ML Enthusiast | Data Engineer
 
 ---
 
