@@ -1,101 +1,177 @@
----
-title: AskMyDocs RAG Chatbot
-emoji: 🤖📄
-colorFrom: indigo
-colorTo: blue
-sdk: streamlit
-sdk_version: "1.38.0"
-app_file: app.py
-pinned: false
-license: mit
----
+# 🤖📄 AskMyDocs — RAG Chatbot
 
-# RAG Pipeline with FAISS + Streamlit (Local LLM via Ollama)
+### RAG Pipeline with FAISS + Streamlit (Local LLM via Ollama)
 
-A **Retrieval-Augmented Generation (RAG)** system using FAISS for vector storage, Streamlit for a ChatGPT-style interface, and a local LLM via Ollama (Mistral) for private, on-device inference.
+An end-to-end **Retrieval-Augmented Generation (RAG)** application that allows users to chat with their own documents. The system uses **FAISS** for vector storage, **Streamlit** for a ChatGPT-style UI, and a **local LLM via Ollama (Mistral)** for private, on-device inference.
+
+This project demonstrates a **production-style RAG pipeline** built entirely with open-source tools and local inference — no external cloud LLMs required.
 
 ---
 
-## Tech Stack
-- **LLM (generation):** Mistral via Ollama  
-- **Embeddings:** `sentence-transformers/all-MiniLM-L6-v2` (HuggingFace)  
-- **Vector DB:** FAISS (persisted locally)  
-- **Frameworks:** LangChain (community + HuggingFace + Ollama integrations)  
-- **UI:** Streamlit (chat interface + sidebar uploads)  
-- **Loaders:** PyPDFLoader (PDF), TextLoader (TXT)  
-- **Memory:** ConversationBufferMemory (session-level chat memory)  
+## 🚀 Project Overview
+
+The goal of this project is to build a **privacy-first document intelligence system** that:
+
+* Accepts PDFs and text documents as input
+* Converts documents into semantic embeddings
+* Stores embeddings in a persistent vector database
+* Retrieves relevant context for user queries
+* Generates accurate, grounded answers using a local LLM
 
 ---
 
-## Features
-- Upload PDFs/TXTs → automatic embeddings → store in FAISS  
-- Chat with your documents using a ChatGPT-style interface  
-- Incremental knowledge growth; new uploads are added without overwriting  
-- Local inference ensures privacy and no cloud dependency  
-- Session memory enables coherent follow-up conversations  
+## 🏗️ High-Level Architecture
+
+**Data Flow:**
+
+```
+Documents (PDF / TXT)
+        ↓
+Document Loaders (PyPDFLoader / TextLoader)
+        ↓
+Embedding Model (MiniLM)
+        ↓
+FAISS Vector Database (Local)
+        ↓
+Retriever (Semantic Search)
+        ↓
+Local LLM via Ollama (Mistral)
+        ↓
+Streamlit Chat UI
+```
 
 ---
 
-## Folder Structure
+## 🧰 Tech Stack
 
+* **LLM (Generation):** Mistral via Ollama
+* **Embeddings:** `sentence-transformers/all-MiniLM-L6-v2` (Hugging Face)
+* **Vector Database:** FAISS (persistent, local)
+* **Frameworks:** LangChain (community + HuggingFace + Ollama integrations)
+* **UI:** Streamlit (chat interface + sidebar uploads)
+* **Document Loaders:**
+
+  * PyPDFLoader (PDF)
+  * TextLoader (TXT)
+* **Memory:** ConversationBufferMemory (session-level chat memory)
+
+---
+
+## ✨ Key Features
+
+* 📄 Upload PDFs/TXTs and automatically generate embeddings
+* 💬 Chat with documents using a ChatGPT-style interface
+* ➕ Incremental knowledge base growth (no overwriting of existing data)
+* 🔒 Fully local inference — privacy-friendly and offline capable
+* 🧠 Session memory for coherent multi-turn conversations
+
+---
+
+## 📁 Project Folder Structure
+
+```
 rag_project/
-├─ data/ # Uploaded PDFs/TXTs
-├─ index/ # FAISS vector DB (persistent)
-├─ ingest.py # Ingestion pipeline (embed + store docs)
-├─ query.py # Retrieval + generation + memory
-├─ ui.py # Streamlit chat app
-├─ inspect_faiss.py # Inspect FAISS index (optional)
-├─ requirements.txt # Dependencies
-└─ venv/ # Python virtual environment
-
+├─ data/               # Uploaded PDFs/TXTs
+├─ index/              # FAISS vector DB (persistent)
+├─ ingest.py           # Ingestion pipeline (embed + store docs)
+├─ query.py            # Retrieval + generation + memory
+├─ ui.py               # Streamlit chat application
+├─ inspect_faiss.py    # FAISS index inspection (optional)
+├─ requirements.txt    # Project dependencies
+└─ venv/               # Python virtual environment
+```
 
 ---
 
-## Getting Started
+## ⚙️ Getting Started
 
-### Setup
+### 🔧 Environment Setup
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
 
-Install Ollama
+---
 
+### 🦙 Install & Run Ollama
+
+```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ollama serve
-ollama pull mistral     # or: ollama pull gemma:2b
+ollama pull mistral
+# or
+ollama pull gemma:2b
+```
 
+---
 
-# Run the App
+### ▶️ Run the Application
 
+```bash
 streamlit run ui.py
+```
 
-# Usage
+---
 
-    Open the Streamlit app URL
+## 🧪 How to Use
 
-    Use “Manage Documents” in the sidebar to upload PDFs/TXTs
+1. Open the Streamlit app URL in your browser
+2. Use **“Manage Documents”** from the sidebar to upload PDFs or TXTs
+3. Ask questions in natural language via the chat interface
+4. The system retrieves relevant context from FAISS
+5. Answers are generated by the local LLM using retrieved documents
+6. Knowledge base grows incrementally with each new upload
 
-    Ask questions in the chat; answers are grounded in uploaded documents
+---
 
-    Knowledge base grows incrementally as new documents are added
+## 🛠️ Implementation Details
 
-# Implementation Details
+### 🔹 Ingestion Pipeline
 
-    Ingestion: PyPDFLoader & TextLoader → embeddings → FAISS
+* Load documents using PyPDFLoader / TextLoader
+* Chunk text and generate embeddings
+* Persist embeddings into FAISS index
 
-    Retrieval + Generation: FAISS retriever → LangChain prompt → Ollama LLM
+### 🔹 Retrieval & Generation
 
-    Memory: ConversationBufferMemory stores chat history for context
+* Semantic search using FAISS retriever
+* Context-aware prompting via LangChain
+* Answer generation using Ollama-powered local LLM
 
-# Achievements
+### 🔹 Memory Handling
 
-    Fully functional RAG pipeline with FAISS
+* ConversationBufferMemory stores chat history
+* Enables context-aware follow-up questions
 
-    ChatGPT-style UI for Q&A over documents
+---
 
-    Incremental knowledge base growth
+## 🏆 Achievements & Outcomes
 
-    Fully local inference (privacy-friendly)
+* ✅ Fully functional RAG pipeline with FAISS
+* ✅ ChatGPT-style document Q&A experience
+* ✅ Incremental, persistent knowledge base
+* ✅ Fully local inference (no cloud LLM dependency)
+* ✅ Optional FAISS inspection utility for debugging
 
-    Optional FAISS inspection utility
+---
+
+## 📌 Use Cases
+
+* Personal knowledge assistants
+* Private document search & Q&A
+* Research paper exploration
+* Internal documentation chatbots
+* Offline AI assistants
+
+---
+
+## 👨‍💻 Author
+
+**Pavan Mahindrakar**
+MCA | Aspiring Data Engineer | AI / ML Enthusiast
+
+---
+
+⭐ *A clean, privacy-first implementation of Retrieval-Augmented Generation using open-source tools and local LLMs.*
